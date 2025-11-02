@@ -1,0 +1,20 @@
+name: ServerCore
+version: 1.0.0
+main: dev.jere.servercore.ServerCorePlugin
+api-version: '1.21'
+softdepend: [LuckPerms, Essentials]
+commands:
+  fly:
+    description: Alterna vuelo propio
+    permission: servercore.fly
+  coins:
+    description: Ver/editar monedas
+    permission: servercore.coins
+    usage: /coins [get|set|add] [player] [amount]
+  msg:
+    description: Mensaje privado respetando ajustes
+    permission: servercore.msg
+permissions:
+  servercore.fly: { default: op }
+  servercore.coins: { default: op }
+  servercore.use: { default: true }

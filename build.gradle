@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+}
+
+group = 'dev.jere'
+version = '1.0.0'
+
+java {
+    toolchain { languageVersion = JavaLanguageVersion.of(21) }
+    withSourcesJar()
+}
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots/' }
+}
+
+dependencies {
+    compileOnly 'org.spigotmc:spigot-api:1.21.8-R0.1-SNAPSHOT'
+    compileOnly 'net.luckperms:api:5.4'       // opcional
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+tasks.test { useJUnitPlatform() }
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+
+tasks.processResources {
+    filesMatching('plugin.yml') { expand(version: project.version) }
+}
+
+tasks.register('copyPlugin', Copy) {
+    dependsOn tasks.jar
+    from tasks.jar
+    into 'C:/mc/spigot/plugins'
+}

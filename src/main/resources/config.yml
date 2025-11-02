@@ -1,0 +1,25 @@
+hotbar:
+  enabled: true
+  heads:
+    menu:
+      name: "&b&lMenú del Servidor"
+      texture: "https://textures.minecraft.net/texture/3f2c9c8b8e0a..."   # poné tu URL/hash
+    settings:
+      name: "&a&lAjustes"
+      texture: "https://textures.minecraft.net/texture/aa1b2c3d4e5f..."
+    fly:
+      name: "&e&lFly"
+      texture: "https://textures.minecraft.net/texture/bb2c3d4e5f6a..."
+messages:
+  fly_on: "✈ Vuelo: ON"
+  fly_off: "✈ Vuelo: OFF"
+  pm_off: "&cEse jugador tiene privados desactivados."
+  coins_you: "&6Monedas: &e{coins}"
+  coins_get: "&e{player}&7: &6{coins}"
+permissions:
+  require_perm_fly: false
+  require_perm_settings: false
+pm:
+  enabled: true
+  blocked_prefix_from: "&7[De &b{from}&7] &f"
+  blocked_prefix_to:   "&7[Para &b{to}&7] &f"
