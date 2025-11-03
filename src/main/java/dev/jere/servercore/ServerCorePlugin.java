@@ -39,11 +39,12 @@ public class ServerCorePlugin extends JavaPlugin {
         pm.registerEvents(new InteractListener(this, menus, profiles, hotbar), this);
         pm.registerEvents(new InventoryProtectionListener(), this);
         pm.registerEvents(new CommandGateListener(this, profiles), this);
+        pm.registerEvents(new CommandKillerListener(this, profiles), this);
 
         // Comandos
         getCommand("fly").setExecutor(new FlyCmd(this, profiles));
         getCommand("coins").setExecutor(new CoinsCmd(profiles));
-        getCommand("msg").setExecutor(new MsgCmd(profiles));
+        getCommand("msj").setExecutor(new MsjCmd(this, profiles));
 
         getLogger().info("ServerCore listo.");
         // dar hotbar a conectados tras /reload

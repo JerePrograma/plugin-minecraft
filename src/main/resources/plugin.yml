@@ -11,10 +11,11 @@ commands:
     description: Ver/editar monedas
     permission: servercore.coins
     usage: /coins [get|set|add] [player] [amount]
-  msg:
+  msj:
     description: Mensaje privado respetando ajustes
     permission: servercore.msg
 permissions:
   servercore.fly: { default: op }
   servercore.coins: { default: op }
+  servercore.msg: { default: true }
   servercore.use: { default: true }
