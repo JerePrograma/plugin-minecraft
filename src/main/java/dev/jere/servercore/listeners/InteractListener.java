@@ -40,12 +40,15 @@ public class InteractListener implements Listener {
                 boolean next = !p.getAllowFlight();
                 p.setAllowFlight(next);
                 if (!next && p.isFlying()) p.setFlying(false);
+                pf.canFly = next;
+                profiles.save(pf);
 
                 // acción visual en barra
                 p.spigot().sendMessage(
                         ChatMessageType.ACTION_BAR,
                         new TextComponent(next ? "✈ Vuelo: ON" : "✈ Vuelo: OFF")
                 );
+                p.playSound(p.getLocation(), next ? org.bukkit.Sound.ENTITY_PLAYER_LEVELUP : org.bukkit.Sound.BLOCK_NOTE_BLOCK_BASS, 0.7f, next ? 1.2f : 0.6f);
             }
         }
     }

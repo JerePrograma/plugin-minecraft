@@ -6,6 +6,7 @@ import dev.jere.servercore.hooks.LuckPermsHook;
 import dev.jere.servercore.hotbar.HotbarManager;
 import dev.jere.servercore.listeners.*;
 import dev.jere.servercore.commands.*;
+import dev.jere.servercore.data.ServerInventoryService;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,6 +17,7 @@ public class ServerCorePlugin extends JavaPlugin {
     private HotbarManager hotbar;
     private LuckPermsHook luckPerms;
     private MenuFactory menus;
+    private ServerInventoryService serverInventories;
 
     public NamespacedKey keyType, keyId; // para marcar items especiales
 
@@ -26,8 +28,9 @@ public class ServerCorePlugin extends JavaPlugin {
         this.keyId = new NamespacedKey(this, "id");
 
         this.profiles = new ProfileService(this);
+        this.serverInventories = new ServerInventoryService(this);
         this.luckPerms = new LuckPermsHook();
-        this.menus = new MenuFactory(this, profiles, luckPerms);
+        this.menus = new MenuFactory(this, profiles, luckPerms, serverInventories);
         this.hotbar = new HotbarManager(this);
 
         // Listeners
@@ -50,6 +53,7 @@ public class ServerCorePlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         profiles.flushAll();
+        serverInventories.saveAll();
     }
 
     public ProfileService profiles() {
@@ -62,5 +66,9 @@ public class ServerCorePlugin extends JavaPlugin {
 
     public MenuFactory menus() {
         return menus;
+    }
+
+    public ServerInventoryService serverInventories() {
+        return serverInventories;
     }
 }
