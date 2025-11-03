@@ -32,16 +32,13 @@ public final class InteractListener implements Listener {
         this.profiles = profiles;
     }
 
-    // Click en aire/bloque: solo RIGHT_CLICK con mano principal
+    // Click en aire/bloque: solo RIGHT_CLICK con mano principal u offhand
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
     public void onUse(PlayerInteractEvent e) {
-        // Solo mano principal para evitar doble-disparo con offhand
-        if (e.getHand() != null && e.getHand() != EquipmentSlot.HAND) return;
-
         final Action a = e.getAction();
         if (a != Action.RIGHT_CLICK_AIR && a != Action.RIGHT_CLICK_BLOCK) return;
 
-        final ItemStack it = e.getItem(); // item de la mano que disparó el evento
+        final ItemStack it = itemFromHand(e.getPlayer(), e.getHand(), e.getItem());
         if (!isProfileMain(it)) return;
 
         // Bloquear interacción por completo y abrir menú
@@ -61,22 +58,20 @@ public final class InteractListener implements Listener {
         openProfile(e.getPlayer());
     }
 
-    // Click derecho a entidad con mano principal
+    // Click derecho a entidad (mano principal u offhand)
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
     public void onInteractEntity(PlayerInteractEntityEvent e) {
-        if (e.getHand() != EquipmentSlot.HAND) return; // ignora offhand
-        final ItemStack it = e.getPlayer().getInventory().getItemInMainHand();
+        final ItemStack it = itemFromHand(e.getPlayer(), e.getHand(), null);
         if (!isProfileMain(it)) return;
 
         e.setCancelled(true);
         openProfile(e.getPlayer());
     }
 
-    // Click derecho "preciso" a entidad (armor stands, etc.), mano principal
+    // Click derecho "preciso" a entidad (armor stands, etc.), mano principal u offhand
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
     public void onInteractAtEntity(PlayerInteractAtEntityEvent e) {
-        if (e.getHand() != EquipmentSlot.HAND) return;
-        final ItemStack it = e.getPlayer().getInventory().getItemInMainHand();
+        final ItemStack it = itemFromHand(e.getPlayer(), e.getHand(), null);
         if (!isProfileMain(it)) return;
 
         e.setCancelled(true);
@@ -84,6 +79,19 @@ public final class InteractListener implements Listener {
     }
 
     // ===== helpers =====
+    private ItemStack itemFromHand(Player player, EquipmentSlot hand, ItemStack fallback) {
+        if (hand == null || hand == EquipmentSlot.HAND) {
+            if (fallback != null) {
+                return fallback;
+            }
+            return player.getInventory().getItemInMainHand();
+        }
+        if (hand == EquipmentSlot.OFF_HAND) {
+            return player.getInventory().getItemInOffHand();
+        }
+        return fallback;
+    }
+
     private boolean isProfileMain(ItemStack it) {
         if (it == null || it.getItemMeta() == null) return false;
         var c = it.getItemMeta().getPersistentDataContainer();
