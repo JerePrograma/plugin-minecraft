@@ -34,6 +34,8 @@ public class InteractListener implements Listener {
             return;
         }
         e.setCancelled(true);
+        e.setUseItemInHand(Event.Result.DENY);
+        e.setUseInteractedBlock(Event.Result.DENY);
         Player p = e.getPlayer();
         Profile pf = profiles.get(p.getUniqueId());
         switch (type) {

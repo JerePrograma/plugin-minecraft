@@ -5,6 +5,7 @@ import dev.jere.servercore.util.Heads;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -20,11 +21,26 @@ public class HotbarManager {
 
     public void giveHotbarItems(Player p) {
         var inv = p.getInventory();
+        clearHotbarItems(inv);
+
         var profile = Heads.customHead("§bPerfil", PROFILE_ICON);
         tag(profile, T_PROFILE, "MAIN");
 
         inv.setItem(0, profile);
         p.updateInventory();
+    }
+
+    private void clearHotbarItems(PlayerInventory inv) {
+        for (int slot = 0; slot < 9; slot++) {
+            ItemStack existing = inv.getItem(slot);
+            if (existing == null) continue;
+            ItemMeta meta = existing.getItemMeta();
+            if (meta == null) continue;
+            var container = meta.getPersistentDataContainer();
+            if (container.has(plugin.keyType, PersistentDataType.STRING)) {
+                inv.clear(slot);
+            }
+        }
     }
 
     private void tag(ItemStack item, String type, String id) {
