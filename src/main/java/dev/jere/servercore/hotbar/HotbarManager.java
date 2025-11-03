@@ -11,10 +11,8 @@ import org.bukkit.persistence.PersistentDataType;
 public class HotbarManager {
     private final ServerCorePlugin plugin;
 
-    public static final String T_MENU = "menu", T_SETTINGS = "settings", T_FLY = "fly";
-    private final String ICON1 = "f4cc1a3cc1f1f508d57f075444ef98a32956543d4d6acdfb5a12dd0bafcd1e09";
-    private final String ICON2 = "3e0c40e6bd8492d7b89c84b303bdb5caa9a2c22db55fa6da3fb8c05620e6f04c";
-    private final String ICON3 = "f0dd5b0dcbf63683bcab9d8f1a9e4b9a2e9fe8d6ef1d5c00f9ba9ddfb6690a2d";
+    public static final String T_PROFILE = "profile";
+    private static final String PROFILE_ICON = "0c3a1fbb79f02f4ce0dfafad9dca7eac191f85632d436a3d79042f2f20c62185";
 
     public HotbarManager(ServerCorePlugin plugin) {
         this.plugin = plugin;
@@ -22,17 +20,10 @@ public class HotbarManager {
 
     public void giveHotbarItems(Player p) {
         var inv = p.getInventory();
-        var menu = Heads.customHead("§bMenú del Servidor", ICON1);
-        var set = Heads.customHead("§eAjustes", ICON2);
-        var fly = Heads.customHead("§dFly ON/OFF", ICON3);
+        var profile = Heads.customHead("§bPerfil", PROFILE_ICON);
+        tag(profile, T_PROFILE, "MAIN");
 
-        tag(menu, T_MENU, "MAIN");
-        tag(set, T_SETTINGS, "SET");
-        tag(fly, T_FLY, "TOGGLE");
-
-        inv.setItem(0, menu);
-        inv.setItem(1, set);
-        inv.setItem(2, fly);
+        inv.setItem(0, profile);
         p.updateInventory();
     }
 

@@ -30,7 +30,7 @@ public class ServerCorePlugin extends JavaPlugin {
         this.profiles = new ProfileService(this);
         this.serverInventories = new ServerInventoryService(this);
         this.luckPerms = new LuckPermsHook();
-        this.menus = new MenuFactory(this, profiles, luckPerms, serverInventories);
+        this.menus = new MenuFactory(this, profiles, luckPerms);
         this.hotbar = new HotbarManager(this);
 
         // Listeners
